@@ -54,16 +54,7 @@
   <div style="position: relative; display: block; max-width: 100%; ">
     <div style="padding-top: 56.25%;">
       <!-- The autoplay and muted attributes have been added to the video element. Also, the controls attribute has been removed. If you want the video to loop continually, you can add the loop attribute.-->
-      <video-js id="myPlayerID"
-        data-playlist-id="4450721964001"
-        data-account="1752604059001"
-        data-player="SJsf1FRVf"
-        data-embed="default"
-        data-application-id
-        class="video-js"
-        autoplay
-        muted
-        style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; width: 100%; height: 100%;">
+      <video-js id="myPlayerID" data-playlist-id="4450721964001" data-account="1752604059001" data-player="SJsf1FRVf" data-embed="default" data-application-id class="video-js" autoplay muted style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; width: 100%; height: 100%;">
       </video-js>
     </div>
   </div>
@@ -79,7 +70,8 @@
   <script type="text/javascript">
     videojs.getPlayer('myPlayerID').ready(function() {
       // Get a reference to the player
-      var myPlayer = this;
+      var myPlayer = this,
+        counter = 0;
 
       // +++ Display the title and description +++
       myPlayer.on('loadstart', function() {
@@ -92,8 +84,15 @@
         myPlayer.playlist.shuffle();
       });
 
-      // +++ Set the playlist to repeat +++
+      // +++ Set the playlist to repeat, but stop after 2 times through +++
       myPlayer.playlist.repeat(true);
+
+      myPlayer.on('playlistitem', function() {
+        counter++;
+        if (counter > 4) {
+          myPlayer.playlist.repeat(false);
+        }
+      })
 
     });
   </script>

@@ -1,6 +1,7 @@
 videojs.registerPlugin('backgroundPlaylistRandom', function() {
   // Get a reference to the player
-  var myPlayer = this;
+  var myPlayer = this,
+    counter = 0;
 
   // +++ Display the title and description +++
   myPlayer.on('loadstart', function() {
@@ -13,7 +14,13 @@ videojs.registerPlugin('backgroundPlaylistRandom', function() {
     myPlayer.playlist.shuffle();
   });
 
-  // +++ Set the playlist to repeat +++
+  // +++ Set the playlist to repeat, but stop after 2 times through +++
   myPlayer.playlist.repeat(true);
 
+  myPlayer.on('playlistitem', function() {
+    counter++;
+    if (counter > 4) {
+      myPlayer.playlist.repeat(false);
+    }
+  })
 });
